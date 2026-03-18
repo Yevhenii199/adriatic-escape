@@ -1,13 +1,9 @@
 import { useLanguage } from '@/lib/LanguageContext';
-import { MessageCircle } from 'lucide-react';
+import { Send } from 'lucide-react';
 import heroImage from '@/assets/hero-montenegro.jpg';
-
-const WHATSAPP_NUMBER = '38269123456';
 
 const HeroSection = () => {
   const { t } = useLanguage();
-
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t('contact_whatsapp_message'))}`;
 
   return (
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
@@ -26,12 +22,10 @@ const HeroSection = () => {
           {t('hero_subtitle')}
         </p>
         <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          href="#contact"
           className="inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-primary-foreground font-body font-semibold text-lg px-8 py-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
         >
-          <MessageCircle size={22} />
+          <Send size={22} />
           {t('hero_cta')}
         </a>
       </div>
