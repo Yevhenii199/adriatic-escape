@@ -1,23 +1,54 @@
+<!doctype html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Montenegro Seaside Apartment | Luxury Vacation Rental</title>
   <meta name="description"
-    content="Book a stunning seaside apartment in Montenegro with breathtaking Adriatic views, modern amenities, and Mediterranean charm." />
+    content="Забронируйте потрясающие апартаменты в Сутоморе с видом на Адриатическое море, современным комфортом и средиземноморским шармом." />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://yourdomain.com/" />
-  <meta property="og:title" content="Luxury Seaside Apartment in Sutomore" />
-  <meta property="og:description"
-    content="Breathtaking Adriatic views & modern Mediterranean comfort. Your perfect getaway in Montenegro starts here." />
+  <meta property="og:title" content="Montenegro Seaside Apartment | Luxury Vacation Rental" />
+  <meta property="og:description" content="Потрясающий вид на море, уют и близость к пляжу в Сутоморе, Черногория." />
   <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Luxury Seaside Apartment in Montenegro" />
-  <meta name="twitter:description" content="Stunning apartment with breathtaking Adriatic views in Sutomore." />
+  <meta name="twitter:url" content="https://yourdomain.com/" />
+  <meta name="twitter:title" content="Montenegro Seaside Apartment | Luxury Vacation Rental" />
+  <meta name="twitter:description" content="Отпуск вашей мечты на побережье Адриатики." />
   <meta name="twitter:image" content="https://yourdomain.com/og-image.jpg" />
 
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <style>
+    /* Стили для того, чтобы фото было фоном всего сайта */
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    #root {
+      /* Накладываем небольшое затемнение поверх фото, чтобы текст был читабельным */
+      background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
+        url('/og-image.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+  </style>
 </head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
