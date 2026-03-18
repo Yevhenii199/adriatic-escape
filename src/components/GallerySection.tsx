@@ -1,20 +1,22 @@
 import { useState } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import gallery1 from '@/assets/gallery-1.jpg';
-import gallery2 from '@/assets/gallery-2.jpg';
-import gallery3 from '@/assets/gallery-3.jpg';
-import gallery4 from '@/assets/gallery-4.jpg';
-import gallery5 from '@/assets/gallery-5.jpg';
-import gallery6 from '@/assets/gallery-6.jpg';
+import gallery1 from '@/assets/parking.webp';
+import gallery2 from '@/assets/terrace.webp';
+import gallery3 from '@/assets/kitchen.1.1.webp';
+import gallery4 from '@/assets/kitchen.1.2.webp';
+import gallery5 from '@/assets/bathroom.1.1.webp';
+import gallery6 from '@/assets/room-1.1.webp';
+import gallery7 from '@/assets/room-1.2.webp';
 
 const images = [
-  { src: gallery1, alt: 'Living room with sea view' },
-  { src: gallery2, alt: 'Bedroom with balcony' },
-  { src: gallery3, alt: 'Modern bathroom' },
-  { src: gallery4, alt: 'Balcony with sea view' },
-  { src: gallery5, alt: 'Fully equipped kitchen' },
-  { src: gallery6, alt: 'Swimming pool area' },
+  { src: gallery1, alt: 'Parking' },
+  { src: gallery2, alt: 'Terrace' },
+  { src: gallery3, alt: 'Kitchen' },
+  { src: gallery4, alt: 'Kitchen' },
+  { src: gallery5, alt: 'Bathroom' },
+  { src: gallery6, alt: 'Room' },
+  { src: gallery7, alt: 'Room' },
 ];
 
 const GallerySection = () => {
@@ -56,12 +58,14 @@ const GallerySection = () => {
           className="fixed inset-0 z-50 bg-foreground/90 flex items-center justify-center p-4"
           onClick={closeLightbox}
         >
-          <button onClick={closeLightbox} className="absolute top-6 right-6 text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+          <button onClick={closeLightbox} className="absolute  top-6 right-6 text-primary-foreground/80 hover:text-primary-foreground transition-colors "
+            aria-label="Close gallery">
             <X size={32} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); prev(); }}
             className="absolute left-4 md:left-8 text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+            aria-label="Previous image"
           >
             <ChevronLeft size={40} />
           </button>
@@ -74,6 +78,7 @@ const GallerySection = () => {
           <button
             onClick={(e) => { e.stopPropagation(); next(); }}
             className="absolute right-4 md:right-8 text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+            aria-label="Next image"
           >
             <ChevronRight size={40} />
           </button>

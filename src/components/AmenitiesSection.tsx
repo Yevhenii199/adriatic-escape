@@ -1,6 +1,6 @@
 import { useLanguage } from '@/lib/LanguageContext';
 
-import { Wifi, AirVent, Car, Mountain, CookingPot, WashingMachine, Fence, Droplets } from 'lucide-react';
+import { Wifi, AirVent, Car, Mountain, CookingPot, WashingMachine, Fence, Flame } from 'lucide-react';
 
 
 const amenities = [

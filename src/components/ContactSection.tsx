@@ -75,7 +75,7 @@ const ContactSection = () => {
           {/* Map */}
           <div className="lg:col-span-2 rounded-xl overflow-hidden shadow-sm aspect-[16/10]">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d94266.77378709988!2d18.7!3d42.29!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134c3272b6ae33f5%3A0x5f8e3b9c3b0e6e6e!2sBudva%2C%20Montenegro!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3706.06673087159!2d19.0615688!3d42.13553110000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134e77208cd2e533%3A0x98d0dfac99d204bd!2sLucia's%20apartment%20Sutomore!5e1!3m2!1sru!2s!4v1750365147676!5m2!1sru!2sttps://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3706.06673087159!2d19.0615688!3d42.13553110000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134e77208cd2e533%3A0x98d0dfac99d204bd!2sLucia's%20apartment%20Sutomore!5e1!3m2!1sru!2s!4v1750365147676!5m2!1sru!2s"
               width="100%"
               height="100%"
               style={{ border: 0, filter: 'saturate(0.8) contrast(1.1)' }}
@@ -127,11 +127,13 @@ const ContactSection = () => {
                 <textarea
                   id="comment"
                   name="comment"
+                  placeholder={t('form_comment_placeholder')} // Додайте плейсхолдер
+                  aria-label={t('form_comment')} // Або явний aria-label
                   value={form.comment}
                   onChange={handleChange}
                   rows={2}
-                  className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                />
+                  className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                />  
               </div>
 
               {/* Captcha */}
