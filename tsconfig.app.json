@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -22,7 +23,7 @@
       ]
     },
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "target": "ES2020",
     "types": [
       "vitest/globals"
