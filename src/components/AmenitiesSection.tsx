@@ -1,15 +1,15 @@
 import { useLanguage } from '@/lib/LanguageContext';
-import { Wifi, AirVent, Car, Waves, CookingPot, WashingMachine, Fence, Droplets } from 'lucide-react';
+import { Wifi, AirVent, Car, Mountain, CookingPot, WashingMachine, Fence, Flame } from 'lucide-react';
 
 const amenities = [
   { icon: Wifi, nameKey: 'amenities_wifi', descKey: 'amenities_wifi_desc' },
   { icon: AirVent, nameKey: 'amenities_ac', descKey: 'amenities_ac_desc' },
   { icon: Car, nameKey: 'amenities_parking', descKey: 'amenities_parking_desc' },
-  { icon: Waves, nameKey: 'amenities_sea', descKey: 'amenities_sea_desc' },
+  { icon: Mountain, nameKey: 'amenities_sea', descKey: 'amenities_sea_desc' },
   { icon: CookingPot, nameKey: 'amenities_kitchen', descKey: 'amenities_kitchen_desc' },
   { icon: WashingMachine, nameKey: 'amenities_washer', descKey: 'amenities_washer_desc' },
   { icon: Fence, nameKey: 'amenities_balcony', descKey: 'amenities_balcony_desc' },
-  { icon: Droplets, nameKey: 'amenities_pool', descKey: 'amenities_pool_desc' },
+  { icon: Flame, nameKey: 'amenities_pool', descKey: 'amenities_pool_desc' },
 ];
 
 const AmenitiesSection = () => {
