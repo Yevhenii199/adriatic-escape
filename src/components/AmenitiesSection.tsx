@@ -1,5 +1,5 @@
 import { useLanguage } from '@/lib/LanguageContext';
-import { Wifi, AirVent, Car, Waves, CookingPot, WashingMachine, Fence, Droplets } from 'lucide-react';
+import { Wifi, AirVent, Car, Mountain, CookingPot, WashingMachine, Fence, Flame } from 'lucide-react';
 
 const amenities = [
   { icon: Wifi, nameKey: 'amenities_wifi', descKey: 'amenities_wifi_desc' },
