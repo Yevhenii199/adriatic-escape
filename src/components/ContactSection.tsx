@@ -1,12 +1,65 @@
+import { useState, useMemo, useCallback } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
-import { MessageCircle, MapPin } from 'lucide-react';
+import { MapPin, Send, Loader2 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
-const WHATSAPP_NUMBER = '38269123456';
+function generateCaptcha() {
+  const a = Math.floor(Math.random() * 10) + 1;
+  const b = Math.floor(Math.random() * 10) + 1;
+  return { question: `${a} + ${b} = ?`, answer: a + b };
+}
 
 const ContactSection = () => {
   const { t } = useLanguage();
+  const [form, setForm] = useState({
+    name: '', phone: '', email: '', checkIn: '', checkOut: '', guests: '', comment: '',
+  });
+  const [captchaInput, setCaptchaInput] = useState('');
+  const [captcha, setCaptcha] = useState(generateCaptcha);
+  const [loading, setLoading] = useState(false);
 
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t('contact_whatsapp_message'))}`;
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (parseInt(captchaInput) !== captcha.answer) {
+      toast.error(t('form_captcha_error'));
+      setCaptcha(generateCaptcha());
+      setCaptchaInput('');
+      return;
+    }
+
+    if (!form.name || !form.phone || !form.checkIn || !form.checkOut) {
+      toast.error(t('form_required_error'));
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-booking', {
+        body: form,
+      });
+
+      if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || 'Unknown error');
+
+      toast.success(t('form_success'));
+      setForm({ name: '', phone: '', email: '', checkIn: '', checkOut: '', guests: '', comment: '' });
+      setCaptchaInput('');
+      setCaptcha(generateCaptcha());
+    } catch (err) {
+      console.error('Booking error:', err);
+      toast.error(t('form_error'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-20 md:py-28 bg-secondary">
@@ -33,22 +86,75 @@ const ContactSection = () => {
             />
           </div>
 
-          {/* Contact card */}
-          <div className="bg-background rounded-xl p-8 flex flex-col justify-center items-center text-center shadow-sm">
-            <MapPin className="text-accent mb-4" size={36} strokeWidth={1.5} />
-            <h3 className="font-display text-xl font-semibold text-foreground mb-2">Budva, Montenegro</h3>
-            <p className="font-body text-muted-foreground text-sm mb-8 leading-relaxed">
-              Mediteranska bb, 85310 Budva
-            </p>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-primary hover:bg-primary/90 text-primary-foreground font-body font-semibold px-6 py-3 rounded-lg transition-all duration-200 hover:shadow-md w-full justify-center"
-            >
-              <MessageCircle size={20} />
-              {t('contact_cta')}
-            </a>
+          {/* Booking Form */}
+          <div className="bg-background rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <MapPin className="text-accent" size={24} strokeWidth={1.5} />
+              <h3 className="font-display text-lg font-semibold text-foreground">
+                {t('form_title')}
+              </h3>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div>
+                <Label htmlFor="name" className="text-xs font-body">{t('form_name')} *</Label>
+                <Input id="name" name="name" value={form.name} onChange={handleChange} required className="mt-1 h-9 text-sm" />
+              </div>
+              <div>
+                <Label htmlFor="phone" className="text-xs font-body">{t('form_phone')} *</Label>
+                <Input id="phone" name="phone" type="tel" value={form.phone} onChange={handleChange} required className="mt-1 h-9 text-sm" />
+              </div>
+              <div>
+                <Label htmlFor="email" className="text-xs font-body">{t('form_email')}</Label>
+                <Input id="email" name="email" type="email" value={form.email} onChange={handleChange} className="mt-1 h-9 text-sm" />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <Label htmlFor="checkIn" className="text-xs font-body">{t('form_checkin')} *</Label>
+                  <Input id="checkIn" name="checkIn" type="date" value={form.checkIn} onChange={handleChange} required className="mt-1 h-9 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="checkOut" className="text-xs font-body">{t('form_checkout')} *</Label>
+                  <Input id="checkOut" name="checkOut" type="date" value={form.checkOut} onChange={handleChange} required className="mt-1 h-9 text-sm" />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="guests" className="text-xs font-body">{t('form_guests')}</Label>
+                <Input id="guests" name="guests" type="number" min="1" max="20" value={form.guests} onChange={handleChange} className="mt-1 h-9 text-sm" />
+              </div>
+              <div>
+                <Label htmlFor="comment" className="text-xs font-body">{t('form_comment')}</Label>
+                <textarea
+                  id="comment"
+                  name="comment"
+                  value={form.comment}
+                  onChange={handleChange}
+                  rows={2}
+                  className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                />
+              </div>
+
+              {/* Captcha */}
+              <div className="bg-muted/50 rounded-lg p-3">
+                <Label className="text-xs font-body text-muted-foreground">{t('form_captcha')}: {captcha.question}</Label>
+                <Input
+                  value={captchaInput}
+                  onChange={(e) => setCaptchaInput(e.target.value)}
+                  placeholder={t('form_captcha_placeholder')}
+                  required
+                  className="mt-1 h-9 text-sm"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-body font-semibold px-6 py-3 rounded-lg transition-all duration-200 hover:shadow-md w-full justify-center disabled:opacity-50"
+              >
+                {loading ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
+                {t('form_submit')}
+              </button>
+            </form>
           </div>
         </div>
       </div>
