@@ -88,6 +88,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     form_success: 'Ваша заявка отправлена! Мы свяжемся с вами в ближайшее время.',
     form_error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
     form_captcha_error: 'Неправильный ответ. Попробуйте ещё раз.',
+    form_past_date_error: 'Пожалуйста, выберите будущую дату.',
     form_required_error: 'Пожалуйста, заполните все обязательные поля.',
   },
   sr: {
