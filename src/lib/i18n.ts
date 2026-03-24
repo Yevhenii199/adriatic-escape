@@ -43,6 +43,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     form_success: 'Your booking request has been sent! We will contact you shortly.',
     form_error: 'Failed to send request. Please try again.',
     form_captcha_error: 'Incorrect answer. Please try again.',
+    form_past_date_error: 'Please select a future date.',
     form_required_error: 'Please fill in all required fields.',
   },
   ru: {
