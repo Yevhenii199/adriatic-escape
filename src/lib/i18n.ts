@@ -43,6 +43,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     form_success: 'Your booking request has been sent! We will contact you shortly.',
     form_error: 'Failed to send request. Please try again.',
     form_captcha_error: 'Incorrect answer. Please try again.',
+    form_past_date_error: 'Please select a future date.',
     form_required_error: 'Please fill in all required fields.',
   },
   ru: {
@@ -87,6 +88,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     form_success: 'Ваша заявка отправлена! Мы свяжемся с вами в ближайшее время.',
     form_error: 'Не удалось отправить заявку. Попробуйте ещё раз.',
     form_captcha_error: 'Неправильный ответ. Попробуйте ещё раз.',
+    form_past_date_error: 'Пожалуйста, выберите будущую дату.',
     form_required_error: 'Пожалуйста, заполните все обязательные поля.',
   },
   sr: {
@@ -131,6 +133,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     form_success: 'Vaš zahtev za rezervaciju je poslat! Kontaktiraćemo vas uskoro.',
     form_error: 'Slanje zahteva nije uspelo. Pokušajte ponovo.',
     form_captcha_error: 'Netačan odgovor. Pokušajte ponovo.',
+    form_past_date_error: 'Molimo izaberite budući datum.',
     form_required_error: 'Molimo popunite sva obavezna polja.',
   },
 };

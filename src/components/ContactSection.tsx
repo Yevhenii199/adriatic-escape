@@ -12,6 +12,8 @@ function generateCaptcha() {
   return { question: `${a} + ${b} = ?`, answer: a + b };
 }
 
+const getTodayString = () => new Date().toISOString().split('T')[0];
+
 const ContactSection = () => {
   const { t, lang } = useLanguage();
   const [form, setForm] = useState({
@@ -21,8 +23,18 @@ const ContactSection = () => {
   const [captcha, setCaptcha] = useState(generateCaptcha);
   const [loading, setLoading] = useState(false);
 
+  const today = useMemo(getTodayString, []);
+
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setForm(prev => {
+      const next = { ...prev, [name]: value };
+      // Reset checkout if it's now before the new checkin
+      if (name === 'checkIn' && prev.checkOut && prev.checkOut < value) {
+        next.checkOut = '';
+      }
+      return next;
+    });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,6 +49,11 @@ const ContactSection = () => {
 
     if (!form.name || !form.phone || !form.checkIn || !form.checkOut) {
       toast.error(t('form_required_error'));
+      return;
+    }
+
+    if (form.checkIn < today) {
+      toast.error(t('form_past_date_error'));
       return;
     }
 
@@ -60,7 +77,6 @@ const ContactSection = () => {
       setLoading(false);
     }
   };
-
   return (
     <section id="contact" className="py-20 md:py-28 bg-secondary">
       <div className="container mx-auto px-6">
@@ -111,11 +127,11 @@ const ContactSection = () => {
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Label htmlFor="checkIn" className="text-xs font-body">{t('form_checkin')} *</Label>
-                  <Input id="checkIn" name="checkIn" type="date" value={form.checkIn} onChange={handleChange} required className="mt-1 h-9 text-sm" />
+                  <Input id="checkIn" name="checkIn" type="date" min={today} value={form.checkIn} onChange={handleChange} required className="mt-1 h-9 text-sm" />
                 </div>
                 <div>
                   <Label htmlFor="checkOut" className="text-xs font-body">{t('form_checkout')} *</Label>
-                  <Input id="checkOut" name="checkOut" type="date" value={form.checkOut} onChange={handleChange} required className="mt-1 h-9 text-sm" />
+                  <Input id="checkOut" name="checkOut" type="date" min={form.checkIn || today} value={form.checkOut} onChange={handleChange} required className="mt-1 h-9 text-sm" />
                 </div>
               </div>
               <div>
