@@ -127,11 +127,11 @@ const ContactSection = () => {
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Label htmlFor="checkIn" className="text-xs font-body">{t('form_checkin')} *</Label>
-                  <Input id="checkIn" name="checkIn" type="date" value={form.checkIn} onChange={handleChange} required className="mt-1 h-9 text-sm" />
+                  <Input id="checkIn" name="checkIn" type="date" min={today} value={form.checkIn} onChange={handleChange} required className="mt-1 h-9 text-sm" />
                 </div>
                 <div>
                   <Label htmlFor="checkOut" className="text-xs font-body">{t('form_checkout')} *</Label>
-                  <Input id="checkOut" name="checkOut" type="date" value={form.checkOut} onChange={handleChange} required className="mt-1 h-9 text-sm" />
+                  <Input id="checkOut" name="checkOut" type="date" min={form.checkIn || today} value={form.checkOut} onChange={handleChange} required className="mt-1 h-9 text-sm" />
                 </div>
               </div>
               <div>
