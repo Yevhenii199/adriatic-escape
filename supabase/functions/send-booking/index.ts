@@ -5,6 +5,39 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
+const templates: Record<string, Record<string, string>> = {
+  en: {
+    title: '🏠 <b>New Booking Request</b>',
+    name: '👤 <b>Name:</b>',
+    phone: '📞 <b>Phone:</b>',
+    email: '📧 <b>Email:</b>',
+    checkIn: '📅 <b>Check-in:</b>',
+    checkOut: '📅 <b>Check-out:</b>',
+    guests: '👥 <b>Guests:</b>',
+    comment: '💬 <b>Comment:</b>',
+  },
+  ru: {
+    title: '🏠 <b>Новая заявка на бронирование</b>',
+    name: '👤 <b>Имя:</b>',
+    phone: '📞 <b>Телефон:</b>',
+    email: '📧 <b>Email:</b>',
+    checkIn: '📅 <b>Заезд:</b>',
+    checkOut: '📅 <b>Выезд:</b>',
+    guests: '👥 <b>Гостей:</b>',
+    comment: '💬 <b>Комментарий:</b>',
+  },
+  sr: {
+    title: '🏠 <b>Novi zahtev za rezervaciju</b>',
+    name: '👤 <b>Ime:</b>',
+    phone: '📞 <b>Telefon:</b>',
+    email: '📧 <b>Email:</b>',
+    checkIn: '📅 <b>Dolazak:</b>',
+    checkOut: '📅 <b>Odlazak:</b>',
+    guests: '👥 <b>Gostiju:</b>',
+    comment: '💬 <b>Komentar:</b>',
+  },
+};
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -17,7 +50,7 @@ serve(async (req) => {
     const TELEGRAM_CHAT_ID = Deno.env.get('TELEGRAM_CHAT_ID');
     if (!TELEGRAM_CHAT_ID) throw new Error('TELEGRAM_CHAT_ID is not configured');
 
-    const { name, phone, email, checkIn, checkOut, guests, comment } = await req.json();
+    const { name, phone, email, checkIn, checkOut, guests, comment, lang } = await req.json();
 
     if (!name || !phone || !checkIn || !checkOut) {
       return new Response(
@@ -26,14 +59,16 @@ serve(async (req) => {
       );
     }
 
-    const message = `🏠 <b>Новая заявка на бронирование</b>\n\n` +
-      `👤 <b>Имя:</b> ${escapeHtml(name)}\n` +
-      `📞 <b>Телефон:</b> ${escapeHtml(phone)}\n` +
-      (email ? `📧 <b>Email:</b> ${escapeHtml(email)}\n` : '') +
-      `📅 <b>Заезд:</b> ${escapeHtml(checkIn)}\n` +
-      `📅 <b>Выезд:</b> ${escapeHtml(checkOut)}\n` +
-      (guests ? `👥 <b>Гостей:</b> ${escapeHtml(String(guests))}\n` : '') +
-      (comment ? `💬 <b>Комментарий:</b> ${escapeHtml(comment)}\n` : '');
+    const t = templates[lang] || templates['en'];
+
+    const message = `${t.title}\n\n` +
+      `${t.name} ${escapeHtml(name)}\n` +
+      `${t.phone} ${escapeHtml(phone)}\n` +
+      (email ? `${t.email} ${escapeHtml(email)}\n` : '') +
+      `${t.checkIn} ${escapeHtml(checkIn)}\n` +
+      `${t.checkOut} ${escapeHtml(checkOut)}\n` +
+      (guests ? `${t.guests} ${escapeHtml(String(guests))}\n` : '') +
+      (comment ? `${t.comment} ${escapeHtml(comment)}\n` : '');
 
     const response = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,

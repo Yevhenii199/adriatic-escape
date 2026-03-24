@@ -13,7 +13,7 @@ function generateCaptcha() {
 }
 
 const ContactSection = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [form, setForm] = useState({
     name: '', phone: '', email: '', checkIn: '', checkOut: '', guests: '', comment: '',
   });
@@ -43,7 +43,7 @@ const ContactSection = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('send-booking', {
-        body: form,
+        body: { ...form, lang },
       });
 
       if (error) throw error;
