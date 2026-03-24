@@ -133,6 +133,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     form_success: 'Vaš zahtev za rezervaciju je poslat! Kontaktiraćemo vas uskoro.',
     form_error: 'Slanje zahteva nije uspelo. Pokušajte ponovo.',
     form_captcha_error: 'Netačan odgovor. Pokušajte ponovo.',
+    form_past_date_error: 'Molimo izaberite budući datum.',
     form_required_error: 'Molimo popunite sva obavezna polja.',
   },
 };
