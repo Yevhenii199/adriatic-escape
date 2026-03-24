@@ -43,7 +43,7 @@ const ContactSection = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('send-booking', {
-        body: form,
+        body: { ...form, lang },
       });
 
       if (error) throw error;
