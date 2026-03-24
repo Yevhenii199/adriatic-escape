@@ -13,7 +13,7 @@ function generateCaptcha() {
 }
 
 const ContactSection = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [form, setForm] = useState({
     name: '', phone: '', email: '', checkIn: '', checkOut: '', guests: '', comment: '',
   });
